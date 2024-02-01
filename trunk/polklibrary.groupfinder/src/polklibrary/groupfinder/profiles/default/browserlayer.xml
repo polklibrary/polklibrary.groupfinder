@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+      name="polklibrary.groupfinder"
+      interface="polklibrary.groupfinder.interfaces.IPolklibraryGroupfinderLayer"
+      />
+</layers>

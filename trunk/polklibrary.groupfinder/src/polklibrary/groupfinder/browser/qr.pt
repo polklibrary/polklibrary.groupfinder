@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone"
+	  lang="en">
+<body>
+
+	<metal:block fill-slot="style_slot">
+        <link type="text/css" rel="stylesheet" href="++resource++polklibrary.groupfinder/groupfinder.css" />
+	</metal:block>
+    
+
+	<metal:block fill-slot="javascript_head_slot">
+	</metal:block>
+    
+    
+    <metal:content-title fill-slot="content-title" >
+        <h1 class="documentFirstHeading">Confirm Reservation</h1>
+    </metal:content-title>
+        
+	<metal:content-description fill-slot="content-description"></metal:content-description>
+
+	<metal:content fill-slot="content-core">
+        
+        <div id="groupfinder" class="column">
+            
+                <tal:block condition="view/data/unavailable">
+                    <div>
+                        <div class="qr-warn">SORRY</div>
+                        <div class="qr-message">
+                            An individual has this room booked during this period.  Please see circulation desk for more information.
+                        </div>
+                    </div>
+                </tal:block>
+            
+                <tal:block condition="not:view/data/unavailable">
+                    <form action="${context/absolute_url}/qr_reservations" method="post">
+                
+                        <div tal:condition="view/data/fits">
+                            <div class="qr-pass">Available</div>
+                            <div class="qr-message">
+                                Available for the time length you selected.  You can reserve the room until 
+                                <span class="qr-bold">${view/data/end_friendly_time}</span>.
+                            </div>
+                        </div>
+                        <div tal:condition="not:view/data/fits">
+                            <div class="qr-warn">WAIT</div>
+                            <div class="qr-message">
+                            Only available until 
+                            <span class="qr-bold">${view/data/end_friendly_time}</span>.
+                            You can still reserve this room but only until 
+                            <span class="qr-bold">${view/data/end_friendly_time}</span>.
+                            </div>
+                        </div>
+                        
+                    
+                        <br />
+                    
+                        <input type="hidden" name="qr.start" value="${view/data/start}"/>
+                        <input type="hidden" name="qr.end" value="${view/data/end}"/>
+                        <input type="hidden" name="qr.room_id" value="${view/data/room_id}"/>
+                        <input class="context" type="submit" name="qr.submit" value="Confirm"/>
+                        <br />
+                        <br />
+                        <div class="qr-rules">
+                            By confirming you agree to the following: <br/>
+                             - You agree to relinquish room at your designated end time (${view/data/end_friendly_time}).<br/>
+                             - You agree and will follow any rules posted in or outside the room.<br/>
+                        </div>
+                    </form>
+                </tal:block>
+
+        </div>
+        
+        
+	</metal:content>
+
+</body>
+</html>

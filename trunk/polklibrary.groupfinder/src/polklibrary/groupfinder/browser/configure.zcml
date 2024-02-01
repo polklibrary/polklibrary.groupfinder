@@ -1,0 +1,75 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:cache="http://namespaces.zope.org/cache"
+    i18n_domain="polklibrary.groupfinder">
+
+  <include package="z3c.caching" file="meta.zcml" />
+  <cache:rulesetType
+      name="polklibrary.groupfinder.cacherule"
+      title="Polk Library Groupfinder"
+      description="Polk Library Room Reservation Caching"
+      />
+
+  <cache:ruleset
+      for="polklibrary.groupfinder.models.groupfinder.IGroupFinder"
+      ruleset="polklibrary.groupfinder.cacherule"
+      />
+      
+      
+    
+  <browser:page
+      for="polklibrary.groupfinder.models.groupfinder.IGroupFinder"
+      name="qr_reservations"
+      class=".qr.QRView"
+      permission="zope2.View"
+      />
+      
+      
+      
+  <browser:page
+      for="polklibrary.groupfinder.models.groupfinder.IGroupFinder"
+      name="room_analytics"
+      class=".analytics_view.AnalyticsView"
+      permission="cmf.ModifyPortalContent"
+      />
+    
+  <browser:page
+      for="polklibrary.groupfinder.models.groupfinder.IGroupFinder"
+      name="room_api"
+      class=".api.RoomAPI"
+      permission="zope2.View"
+      />
+      
+      
+  <browser:page
+      for="polklibrary.groupfinder.models.groupfinder.IGroupFinder"
+      name="groupfinder_view"
+      class=".groupfinder.GroupFinder"
+      permission="zope2.View"
+      />
+    
+    
+  <browser:page
+      for="polklibrary.groupfinder.models.room.IRoom"
+      name="room_view"
+      class=".rooms.Rooms"
+      permission="zope2.View"
+      />
+    
+    
+  <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
+  <include package="z3c.jbot" file="meta.zcml" />
+  <browser:jbot
+      directory="overrides"
+      layer="polklibrary.groupfinder.interfaces.IPolklibraryGroupfinderLayer"
+      />
+
+  <!-- Publish static files -->
+  <browser:resourceDirectory
+      name="polklibrary.groupfinder"
+      directory="static"
+      />
+
+</configure>

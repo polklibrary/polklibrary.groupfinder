@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone"
+	  lang="en">
+<body>
+
+	<metal:block fill-slot="style_slot">
+        <link type="text/css" rel="stylesheet" href="++resource++polklibrary.groupfinder/groupfinder.css" />
+	</metal:block>
+    
+
+	<metal:block fill-slot="javascript_head_slot">
+	</metal:block>
+    
+    
+    <metal:content-title fill-slot="content-title" >
+        <h1 class="documentFirstHeading">${context/Title}</h1>
+    </metal:content-title>
+        
+	<metal:content-description fill-slot="content-description"></metal:content-description>
+
+	<metal:content fill-slot="content-core">
+        
+        <div id="groupfinder-analytics" class="column">
+            <h3>Analytic Options</h3>
+            <br />
+            <form method="post">
+                <label>
+                    Start Date
+                    <input type="text" value="${view/start_value}" name="form.start" placeholder="YYYY-MM-DD" />
+                </label>
+                
+                <label>
+                    End Date
+                    <input type="text" value="${view/end_value}" name="form.end" placeholder="YYYY-MM-DD" />
+                </label>
+                
+                <input type="submit" value="Get Counts" name="form.submit" />
+                <input type="submit" value="Get Usage By Hour" name="form.submit" />
+            </form>
+
+            <br />
+            
+            <div id="analytics-count-results" tal:define="results view/count_results" tal:condition="results">
+            
+                <tal:block condition="python:request.form.get('form.submit','')=='Get Counts'">
+                    <div class="analytics-title">Usage Counts</div>
+                    <div class="analytics-value" tal:repeat="result results"><b class="analytics-room-title">${result/Title}:</b> ${result/Counts}</div>
+                </tal:block>
+                
+                <tal:block condition="python:request.form.get('form.submit','')=='Get Usage By Hour'">
+                    <div class="analytics-title">Rooms usage by hour</div>
+                    <div class="analytics-value" tal:repeat="result results">
+                        <b class="analytics-room-title">${result/Title}:</b>
+                        <div tal:repeat="index python:range(0,24)">
+                            <tal:block condition="python: index in result['Hours']">
+                                ${index}:00 - <tal:block content="python:result['Hours'][index]"></tal:block>
+                            </tal:block>
+                        </div>
+                    
+                    </div>
+                </tal:block>
+                
+            </div>
+        
+        </div>
+        
+        
+	</metal:content>
+
+</body>
+</html>

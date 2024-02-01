@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone"
+	  lang="en">
+<body>
+
+	<metal:block fill-slot="style_slot">
+	</metal:block>
+    
+
+	<metal:block fill-slot="javascript_head_slot">
+        
+	</metal:block>
+    
+    <metal:content-title fill-slot="content-title" >
+        <h1 class="documentFirstHeading">${context/Title}</h1>
+    </metal:content-title>
+        
+	<metal:content-description fill-slot="content-description"></metal:content-description>
+
+	<metal:content fill-slot="content-core">
+        
+        <div class="column">
+            <div class="col-50">
+                <tal:block replace="structure context/body/output|nothing" />
+            </div>
+            <div class="col-50">
+                <img src="${context/absolute_url}/@@download/image/${context/image/filename}" alt="Room Image" />
+            </div>
+        </div>
+        <div class="clear"></div>
+        
+	</metal:content>
+
+</body>
+</html>

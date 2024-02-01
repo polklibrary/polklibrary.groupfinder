@@ -1,0 +1,293 @@
+.gf-mobile-header{
+    padding: 10px;
+    background-color: #333;
+}
+.gf-mobile-header a{
+    color: white;
+}
+
+#groupfinder {
+    margin-bottom: 50px;
+}
+
+#gf-no-rooms{
+    color: red;
+    font-size: 24px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.gf-backdrop {
+    background-color: #999;
+    bottom: 0;
+    display: none;
+    left: 0;
+    opacity: 0.7;
+    right: 0;
+    top: 0;
+    z-index: 10;
+}
+#gf-loaddrop {
+    background-image: url('++resource++polklibrary.groupfinder/loading.gif');
+    background-repeat: no-repeat;
+    background-size: 10%;
+    position: absolute;
+    display: block;
+    height: 5000px;
+}
+
+#gf-events > div .gf-timeslot.gf-current-live {
+    background-color: rgba(0, 168, 255, 0.15);
+    border-top: 3px dashed rgba(0, 168, 255, 0.80) !important;
+    border-bottom: 3px dashed rgba(0, 168, 255, 0.80) !important;
+}
+
+#gf-backdrop {
+    position: fixed;
+}
+
+
+#gf-pickadate-label { font-weight: bold; }
+#groupfinder .pattern-pickadate-date-wrapper > input {
+    font-weight: bold;
+    padding: 10px !important;
+}
+
+#gf-locations {
+    margin-bottom: 10px;
+}
+#gf-locations a{
+    color: #333;
+    font-size: 12px;
+    font-style: italic;
+}
+
+
+
+#gf-events {
+    border: 1px solid #bbb;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+#gf-events > div .gf-timeslot {
+    background-color: #eeeeee;
+    border: 1px solid #ddd;
+    border-bottom: 0 none;
+    cursor: pointer;
+    padding: 10px;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;  
+    -khtml-user-select: none;    
+    -moz-user-select: none;      
+    -ms-user-select: none;       
+    user-select: none;           
+}
+#gf-events > div .gf-timeslot:hover, #gf-events > div .gf-timeslot.highlighted {
+    background-color: #81F781;
+}
+#gf-events > div .gf-event {
+    background-color: pink !important;
+    border-bottom-color: pink;
+    border-top-color: pink;
+}
+#gf-events > div .gf-event.gf-start {
+    box-shadow: 0px 5px 0 0px #DA7485 inset;
+}
+
+#gf-events .pat-text-shorty {
+    color: black;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 0.9em;
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* CONFIRM OVERLAY ================================================================*/
+#gf-confirmed-overlay {
+    background-color: #eee;
+    box-shadow: 0 0 10px 4px #000;
+    display: none;
+    left: 50%;
+    margin-left: -200px;
+    padding: 15px;
+    position: absolute;
+    width: 400px;
+    top: 100px;
+    z-index: 10000;
+}
+#gf-confirmed-overlay  h2 {
+    margin: 0;
+}
+#gf-confirmed-overlay  p {
+}
+
+#gf-confirmed-overlay  input {
+}
+
+
+/* ADD OVERLAY ================================================================*/
+
+#gf-add-overlay {
+    background-color: #eee;
+    box-shadow: 0 0 10px 4px #000;
+    display: none;
+    left: 50%;
+    margin-left: -200px;
+    padding: 15px;
+    position: absolute;
+    width: 400px;
+    top: 100px;
+    z-index: 10000;
+}
+#gf-add-overlay  h2 {
+    margin: 0;
+}
+#gf-add-overlay > label {
+    display: block;
+    margin-top: 10px;
+}
+#gf-add-overlay > label[for="gf-privacy"] { display: inline-block; }
+#gf-add-overlay #gf-privacy { vertical-align: middle; }
+
+#gf-add-overlay > .gf-buttons {
+    margin-top: 10px;
+}
+#gf-add-overlay  option[disabled]{
+    background-color: #ddd;
+}
+#gf-add-overlay  option[disabled]:after{
+    content: ' (taken)';
+    font-style: italic;
+}
+#gf-add-overlay  #gf-title-toggle {
+    margin-top: 10px;
+    display: none;
+}
+
+#gf-add-overlay #gf-location {
+    background-color: #ddd;
+    margin-top: 20px;
+    padding: 10px;
+}
+#gf-add-overlay #gf-location img {
+    height: auto;
+    width: 100%;
+}
+
+.gf-title:after {
+    content: attr(data-title);
+    position: absolute;
+    top: -5px;
+}
+
+
+#gf-timeline {
+    left: 0;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    border-bottom: 3px dashed rgba(0, 164, 255, 0.85);
+}
+
+#gf-submit.invalid-email, #gf-submit.invalid-title, #gf-submit.invalid-word {
+    background-color: #ccc;
+}
+
+.invalid-field {
+    border: 1px solid red !important;
+    background-color: pink !important;
+}
+label[for="gf-email"]{ position: relative; } 
+label[for="gf-email"].invalid-email-message::after{
+    position: absolute;
+    top: 0px;
+    color: red;
+    margin-left: 10px;
+    content: 'uwosh@edu email required';
+}
+label[for="gf-title"]{ position: relative; } 
+label[for="gf-title"].invalid-title-message::after{
+    position: absolute;
+    top: 0px;
+    color: red;
+    margin-left: 10px;
+    content: 'Reservation title is required';
+}
+label[for="gf-title"].invalid-wording-message::after{
+    position: absolute;
+    top: 0px;
+    color: red;
+    margin-left: 10px;
+    content: 'Blocked word or # detected';
+}
+
+#groupfinder-analytics{
+    
+}
+
+#analytics-count-results {
+    background-color: #eee;
+    border: 1px solid #666;
+    padding: 10px;
+    line-height: 2em;
+}
+
+#analytics-count-results .analytics-title{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
+#analytics-count-results .analytics-value{
+    color: #00960e;
+}
+
+
+#analytics-count-results .analytics-room-title{
+    color: #222;
+}
+
+
+.qr-pass{
+    color: darkgreen;
+    font-size: 36px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.qr-warn{
+    color: darkred;
+    font-size: 36px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.qr-message{
+    color: #333;
+    font-size: 20px;
+}
+.qr-bold{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.qr-rules{
+    color: #666;
+    font-style: italic;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

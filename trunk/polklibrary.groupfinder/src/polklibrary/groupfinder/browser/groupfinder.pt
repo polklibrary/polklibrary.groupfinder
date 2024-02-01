@@ -1,0 +1,174 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone"
+	  lang="en">
+<body>
+
+	<metal:block fill-slot="style_slot">
+        <link type="text/css" rel="stylesheet" href="++resource++polklibrary.groupfinder/groupfinder.css" />
+	</metal:block>
+    
+
+	<metal:block fill-slot="javascript_head_slot">
+        <script>
+            var GFLocations = ${view/get_rooms_json};
+            var GFCurrentUserRoles = ${view/current_userroles}; // protected on api end too.
+            var GFBannedEmails = ${view/banned_users}; // protected on api end too.
+            var GFBannedWords = ${view/banned_words}; // protected on api end too.
+        </script>
+        <script src="++resource++polklibrary.groupfinder/roomfinder.js"></script>
+	</metal:block>
+    
+    
+    <metal:content-title fill-slot="content-title" >
+        <h1 class="documentFirstHeading">${context/Title}</h1>
+    </metal:content-title>
+        
+	<metal:content-description fill-slot="content-description"></metal:content-description>
+
+	<metal:content fill-slot="content-core">
+        
+        <div id="groupfinder" class="column">
+        
+            <div class="col-100">
+                <tal:block replace="structure context/body/output|nothing" on-error="nothing" />
+            </div>
+            <div class="clear"></div>
+        
+            <div class="col-20">
+                <div id="gf-pickadate-label">
+                    View room reservations: 
+                </div>
+                <input id="gf-pickadate" type="date" name="gf.pickadate" />
+                <!--<input id="gf-pickadate" class="pat-pickadate" value="" data-pat-pickadate="time:false"/> -->
+                <script>
+                    var tmp_date = new Date();
+                    var tmp_month = tmp_date.getMonth()+1;
+                    if (tmp_month < 10)
+                        tmp_month = '0' + tmp_month;
+                    var tmp_day = tmp_date.getDate();
+                    if (tmp_day < 10)
+                        tmp_day = '0' + tmp_day;
+                    document.getElementById('gf-pickadate').value = tmp_date.getFullYear() + '-' + tmp_month + '-' + tmp_day; 
+                </script>
+            </div>
+            <div class="col-80">
+                <img src="++resource++polklibrary.groupfinder/helpinfo.jpg" alt="Help" />
+            </div>
+            
+            <div id="gf-locations" class="col-100 hide-1024-force">
+                <tal:block repeat="location view/get_rooms">
+                    <div class="col-20 ${location/extraCSS}" data-pos="${repeat/location/index}">
+                        <div class="b">
+                            <a href="${location/getURL}">${location/Title}</a>
+                        </div>
+                    </div>
+                </tal:block>
+            </div>
+            <div id="gf-events" class="col-100" style="position: relative"></div>
+            
+            <div id="gf-no-rooms" class="col-100">This library has no reservable rooms.</div>
+            
+            <div class="clear"></div>
+        
+        </div>
+        
+        
+        
+        <div id="gf-backdrop" class="gf-backdrop"></div>
+        <div id="gf-confirmed-overlay">
+            <h2>You have scheduled the <span id="gf-confirm-room"></span></h2>
+            <p>
+                Your reservation is from: 
+                <span id="gf-confirm-start"></span> to 
+                <span id="gf-confirm-end"></span> on
+                <span id="gf-confirm-date"></span>
+            </p>
+            <p>
+                If you fail to arrive within 15 minutes of the start of the reservation, your reservation is void.
+                If the room is in use when you arrive for your reservation, please pull up this webpage and show you
+                have the room reserved. Visit the circulation desk for further NetID verification if necessary. 
+            </p>
+            
+            <input class="context" type="button" value="I Understand" />
+        </div>
+        <div id="gf-add-overlay">
+            <a name="gf-overlay-target"></a>
+            <h2>Schedule Room</h2>
+        
+            <label for="gf-email">Your email:</label>
+            <input id="gf-email" class="pat-required" type="text" name="email" value="" placeholder="something@uwosh.edu" />
+            
+            <label for="gf-title">Group name:</label>
+            <input id="gf-title" class="pat-required" type="text" name="title" value="Private" placeholder="example: Bio 101 or John's group" maxlength="25" />
+
+            
+            <label for="gf-start">Start Time:</label>
+            <select id="gf-start" name="start">
+                <option data-hour="0" value="0">12:00 am</option>
+                <option data-hour="0" value="15">12:15 am</option>
+                <option data-hour="0" value="30">12:30 am</option>
+                <option data-hour="0" value="45">12:45 am</option>
+                <tal:block repeat="i python:range(1, 12)">
+                    <option tal:attributes="data-hour python:i" value="0">${i}:00 am</option>
+                    <option tal:attributes="data-hour python:i" value="15">${i}:15 am</option>
+                    <option tal:attributes="data-hour python:i" value="30">${i}:30 am</option>
+                    <option tal:attributes="data-hour python:i" value="45">${i}:45 am</option>
+                </tal:block>
+                <option data-hour="12" value="0">12:00 pm</option>
+                <option data-hour="12" value="15">12:15 pm</option>
+                <option data-hour="12" value="30">12:30 pm</option>
+                <option data-hour="12" value="45">12:45 pm</option>
+                <tal:block repeat="i python:range(1, 12)">
+                    <option tal:attributes="data-hour python:i+12" value="0">${i}:00 pm</option>
+                    <option tal:attributes="data-hour python:i+12" value="15">${i}:15 pm</option>
+                    <option tal:attributes="data-hour python:i+12" value="30">${i}:30 pm</option>
+                    <option tal:attributes="data-hour python:i+12" value="45">${i}:45 pm</option>
+                </tal:block>
+            </select>
+
+            <label for="gf-end">End Time:</label>
+            <select id="gf-end" name="end">
+                <option data-hour="0" value="0">12:00 am</option>
+                <option data-hour="0" value="15">12:15 am</option>
+                <option data-hour="0" value="30">12:30 am</option>
+                <option data-hour="0" value="45">12:45 am</option>
+                <tal:block repeat="i python:range(1, 12)">
+                    <option tal:attributes="data-hour python:i" value="0">${i}:00 am</option>
+                    <option tal:attributes="data-hour python:i" value="15">${i}:15 am</option>
+                    <option tal:attributes="data-hour python:i" value="30">${i}:30 am</option>
+                    <option tal:attributes="data-hour python:i" value="45">${i}:45 am</option>
+                </tal:block>
+                <option data-hour="12" value="0">12:00 pm</option>
+                <option data-hour="12" value="15">12:15 pm</option>
+                <option data-hour="12" value="30">12:30 pm</option>
+                <option data-hour="12" value="45">12:45 pm</option>
+                <tal:block repeat="i python:range(1, 12)">
+                    <option tal:attributes="data-hour python:i+12" value="0">${i}:00 pm</option>
+                    <option tal:attributes="data-hour python:i+12" value="15">${i}:15 pm</option>
+                    <option tal:attributes="data-hour python:i+12" value="30">${i}:30 pm</option>
+                    <option tal:attributes="data-hour python:i+12" value="45">${i}:45 pm</option>
+                </tal:block>
+            </select>
+            <div id="gf-warn"></div>
+            <div class="gf-buttons">
+                <input id="gf-submit" class="context invalid-email invalid-title" type="button" value="Schedule Room" />
+                <input id="gf-cancel" class="standalone" type="button" value="Cancel" />
+                <input id="gf-cal" type="hidden" name="gf-cal" value="" />
+            </div>
+            
+            <div id="gf-location">
+                <h2></h2>
+                <div></div>
+                <img alt="Room Image" />
+            </div>
+        
+        </div>
+        
+        
+	</metal:content>
+
+</body>
+</html>
